@@ -48,7 +48,7 @@ function App() {
 
   return (
     <div>
-      <h1>Task Manager</h1>
+      <h1>Taskify</h1>
       <form onSubmit={handleSubmit}>
         <input type="text" name="title" placeholder="Title" value={newTask.title} onChange={handleInputChange} />
         <input type="text" name="description" placeholder="Description" value={newTask.description} onChange={handleInputChange} />
