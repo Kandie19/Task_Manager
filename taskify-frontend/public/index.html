@@ -1,22 +1,19 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Background Image Example</title>
+  <title>My Website with Logo</title>
   <style>
     body {
       margin: 0;
       padding: 0;
-      background-image: url('background.jpg');
-      background-size: cover; /* Cover the entire viewport */
-      background-position: center; /* Center the image */
       font-family: Arial, sans-serif;
-      color: #fff; /* Set text color to white for better contrast */
     }
 
     .container {
+      max-width: 800px;
+      margin: 0 auto;
       padding: 20px;
       text-align: center;
     }
@@ -29,12 +26,20 @@
     p {
       font-size: 18px;
     }
+
+    .logo {
+      width: 150px; /* Adjust the width as needed */
+      margin-bottom: 20px;
+    }
   </style>
 </head>
 <body>
+  <!-- Logo added here -->
+  <img src="logo.png" alt="My Logo" class="logo">
+  
   <div class="container">
-    <h1>Taskify - "Do it Like A Boss"</h1>
-    <p>This is a simple example of using an image as the background in HTML.</p>
+    <h1>Welcome to My Website</h1>
+    <p>This is a simple example of adding a logo to a website.</p>
   </div>
 </body>
 </html>
