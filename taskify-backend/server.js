@@ -1,73 +1,78 @@
-// server.js
-
 const express = require('express');
 const mysql = require('mysql');
 const cors = require('cors');
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const port = process.env.PORT || 3001;
 
-// Middleware
-app.use(cors());
-app.use(express.json());
-
-// MySQL Connection
-const db = mysql.createConnection({
+// Create a MySQL database connection
+const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: '$Ummer1992',
   database: 'task_manager_db'
 });
 
-// Connect to MySQL
-db.connect((err) => {
-  if (err) {
-    throw err;
+// Connect to the database
+connection.connect((error) => {
+  if (error) {
+    console.error('Error connecting to the database:', error);
+    return;
   }
-  console.log('Connected to MySQL database');
+  console.log('Connected to the database');
 });
 
-// Routes
+// Middleware to enable CORS
+app.use(cors());
+app.use(express.json());
 
-// Get all tasks
-app.get('/tasks', (req, res) => {
-  const sql = 'SELECT * FROM tasks';
-  db.query(sql, (err, result) => {
-    if (err) {
-      res.status(500).json({ error: 'Error fetching tasks from database' });
-      return;
+// Define API endpoints
+
+// GET all tasks
+app.get('/api/tasks', (req, res) => {
+  connection.query('SELECT * FROM tasks', (error, results) => {
+    if (error) {
+      console.error('Error fetching tasks:', error);
+      res.status(500).json({ error: 'An error occurred while fetching tasks' });
+    } else {
+      res.json(results);
     }
-    res.json(result);
   });
 });
 
-// Add a new task
-app.post('/tasks', (req, res) => {
+// POST a new task
+app.post('/api/tasks', (req, res) => {
   const { title, description, dueDate, priority, category, tags } = req.body;
-  const sql = 'INSERT INTO tasks (title, description, dueDate, priority, category, tags) VALUES (?, ?, ?, ?, ?, ?)';
-  db.query(sql, [title, description, dueDate, priority, category, tags], (err, result) => {
-    if (err) {
-      res.status(500).json({ error: 'Error adding task to database' });
-      return;
+  connection.query(
+    'INSERT INTO tasks (title, description, dueDate, priority, category, tags) VALUES (?, ?, ?, ?, ?, ?)',
+    [title, description, dueDate, priority, category, tags],
+    (error, result) => {
+      if (error) {
+        console.error('Error adding task:', error);
+        res.status(500).json({ error: 'An error occurred while adding the task' });
+      } else {
+        res.status(201).json({ id: result.insertId, title, description, dueDate, priority, category, tags });
+      }
     }
-    res.json({ id: result.insertId, title, description, dueDate, priority, category, tags });
-  });
+  );
 });
 
-// Delete a task
-app.delete('/tasks/:id', (req, res) => {
+// DELETE a task by ID
+app.delete('/api/tasks/:id', (req, res) => {
   const taskId = req.params.id;
-  const sql = 'DELETE FROM tasks WHERE id = ?';
-  db.query(sql, [taskId], (err, result) => {
-    if (err) {
-      res.status(500).json({ error: 'Error deleting task from database' });
-      return;
+  connection.query('DELETE FROM tasks WHERE id = ?', taskId, (error, result) => {
+    if (error) {
+      console.error('Error deleting task:', error);
+      res.status(500).json({ error: 'An error occurred while deleting the task' });
+    } else if (result.affectedRows === 0) {
+      res.status(404).json({ error: `Task with ID ${taskId} not found` });
+    } else {
+      res.status(204).end();
     }
-    res.sendStatus(200);
   });
 });
 
 // Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
 });
