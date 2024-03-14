@@ -90,7 +90,9 @@
         const category = document.getElementById('category').value;
 
         const newTask = document.createElement('li');
-        newTask.innerHTML = `<strong>${title}</strong> - ${description} (${priority}) - ${category}`;
+        newTask.innerHTML = `<span>${title}</span> - ${description} (${priority}) - ${category}
+          <button class="delete">Delete</button>
+          <button class="done">Mark Done</button>`;
         taskList.appendChild(newTask);
 
         // Clear form fields
@@ -98,6 +100,14 @@
         document.getElementById('description').value = '';
         document.getElementById('priority').value = '';
         document.getElementById('category').value = '';
+      });
+
+      taskList.addEventListener('click', (e) => {
+        if (e.target.classList.contains('delete')) {
+          e.target.parentElement.remove(); // Remove the task item
+        } else if (e.target.classList.contains('done')) {
+          e.target.previousElementSibling.style.textDecoration = 'line-through'; // Strike through the task title
+        }
       });
     });
   </script>
