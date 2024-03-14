@@ -1,6 +1,7 @@
-// App.js
-
+//app.js
 import React, { useState, useEffect } from 'react';
+import { Calendar } from '@fullcalendar/react'; // Import Calendar component
+import dayGridPlugin from '@fullcalendar/daygrid'; // Import DayGrid plugin
 import TaskForm from './TaskForm';
 import TaskList from './TaskList';
 import io from 'socket.io-client';
@@ -67,6 +68,13 @@ function App() {
       <h1>Taskify</h1>
       <TaskForm addTask={addTask} />
       <TaskList tasks={tasks} deleteTask={deleteTask} />
+
+      {/* Calendar component */}
+      <Calendar
+        plugins={[dayGridPlugin]} // Specify plugins
+        initialView="dayGridMonth" // Set initial view to month
+        events={[]} // Pass events data (if any)
+      />
     </div>
   );
 }
