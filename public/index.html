@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Taskify</title>
+  <link href='fullcalendar/main.css' rel='stylesheet' /> <!-- FullCalendar CSS -->
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -55,10 +56,18 @@
       width: 100px; /* Adjust the width as needed */
       margin-bottom: 20px;
     }  
+    #calendar { /* Styling for the calendar container */
+      margin-top: 20px;
+    }
+    #clock { /* Styling for the clock container */
+      font-size: 24px;
+      margin-top: 20px;
+    }
   </style>
 </head>
-  <body>
-    <img src="/logo.png" alt="Taskify Logo" />  <div class="container">
+<body>
+  <img src="/logo.png" alt="Taskify Logo" />  
+  <div class="container">
     <h1>TASKIFY</h1>
     <form id="taskForm">
       <input type="text" id="title" placeholder="Title" required>
@@ -71,14 +80,16 @@
       </select>
       <input type="text" id="category" placeholder="Category" required>
       <button type="submit">Add Task</button>
-      <button type="delete">Delete Task</button>
+      <button type="button" id="deleteTask">Delete Task</button> <!-- Change button type -->
     </form>
     <ul id="taskList"></ul>
-    <div id="calendar"></div> <!-- Calendar container --> 
-    </div>
+    <div id="calendar"></div> <!-- Calendar container -->
+    <div id="clock"></div> <!-- Clock container -->
+  </div>
 
+  <script src='fullcalendar/main.js'></script> <!-- FullCalendar JavaScript -->
   <script>
-     document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function() {
       var calendarEl = document.getElementById('calendar');
 
       var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -97,38 +108,64 @@
           // Add more events as needed
         ]
       });
-      calendar.render();    
-      document.addEventListener('DOMContentLoaded', () => {
-      const taskForm = document.getElementById('taskForm');
-      const taskList = document.getElementById('taskList');
 
-      taskForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const title = document.getElementById('title').value;
-        const description = document.getElementById('description').value;
-        const priority = document.getElementById('priority').value;
-        const category = document.getElementById('category').value;
+      calendar.render();
+    });
 
-        const newTask = document.createElement('li');
-        newTask.innerHTML = `<span>${title}</span> - ${description} (${priority}) - ${category}
-          <button class="delete">Delete</button>
-          <button class="done">Mark Done</button>`;
-        taskList.appendChild(newTask);
+    function updateClock() {
+      var now = new Date();
+      var hours = now.getHours();
+      var minutes = now.getMinutes();
+      var seconds = now.getSeconds();
+      
+      // Add leading zeros to single-digit minutes and seconds
+      minutes = minutes < 10 ? '0' + minutes : minutes;
+      seconds = seconds < 10 ? '0' + seconds : seconds;
 
-        // Clear form fields
-        document.getElementById('title').value = '';
-        document.getElementById('description').value = '';
-        document.getElementById('priority').value = '';
-        document.getElementById('category').value = '';
-      });
+      var timeString = hours + ':' + minutes + ':' + seconds;
+      
+      // Update the clock element with the current time
+      document.getElementById('clock').textContent = timeString;
+    }
 
-      taskList.addEventListener('click', (e) => {
-        if (e.target.classList.contains('delete')) {
-          e.target.parentElement.remove(); // Remove the task item
-        } else if (e.target.classList.contains('done')) {
-          e.target.previousElementSibling.style.textDecoration = 'line-through'; // Strike through the task title
-        }
-      });
+    // Call updateClock function every second to update the time
+    setInterval(updateClock, 1000);
+
+    // Initial call to updateClock to set the initial time
+    updateClock();
+
+    // Task Form Submission
+    var taskForm = document.getElementById('taskForm');
+    var taskList = document.getElementById('taskList');
+
+    taskForm.addEventListener('submit', function(event) {
+      event.preventDefault();
+      
+      var title = document.getElementById('title').value;
+      var description = document.getElementById('description').value;
+      var priority = document.getElementById('priority').value;
+      var category = document.getElementById('category').value;
+      
+      // Create new task list item
+      var newTask = document.createElement('li');
+      newTask.innerHTML = '<strong>' + title + '</strong> - ' + description + ' (' + priority + ') - ' + category;
+      taskList.appendChild(newTask);
+      
+      // Clear form fields
+      document.getElementById('title').value = '';
+      document.getElementById('description').value = '';
+      document.getElementById('priority').value = '';
+      document.getElementById('category').value = '';
+    });
+
+    // Delete Task Button
+    var deleteTaskButton = document.getElementById('deleteTask');
+
+    deleteTaskButton.addEventListener('click', function() {
+      var taskItems = taskList.getElementsByTagName('li');
+      if (taskItems.length > 0) {
+        taskItems[taskItems.length - 1].remove();
+      }
     });
   </script>
 </body>
