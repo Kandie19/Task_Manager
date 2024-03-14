@@ -167,6 +167,20 @@
         taskItems[taskItems.length - 1].remove();
       }
     });
+
+    // Mark Task Done Button
+    var markTaskDoneButton = document.createElement('button');
+    markTaskDoneButton.textContent = 'Mark Task Done';
+    markTaskDoneButton.addEventListener('click', function() {
+      var taskItems = taskList.getElementsByTagName('li');
+      if (taskItems.length > 0) {
+        var lastTask = taskItems[taskItems.length - 1];
+        lastTask.style.textDecoration = 'line-through';
+      }
+    });
+
+    // Add Mark Task Done Button to the form
+    taskForm.appendChild(markTaskDoneButton);
   </script>
 </body>
 </html>
