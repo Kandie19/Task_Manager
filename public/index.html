@@ -4,8 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Taskify</title>
-  <link href='fullcalendar/full_calendar.css' rel='stylesheet' /> <!-- FullCalendar CSS -->
-  <link rel="icon" href="%PUBLIC_URL%/favicon.png" />  <style>
+  <!-- Include FullCalendar CSS -->
+  <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.css' rel='stylesheet' /> <!-- FullCalendar CSS -->
+  <link rel="icon" href="%PUBLIC_URL%/favicon.png" />  
+  <style>
     body {
       font-family: Arial, sans-serif;
       margin: 0;
@@ -24,7 +26,8 @@
       background-position: center; /* Center the background image */
       border-radius: 8px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      position: relative; /* Position relative for absolute positioning */    }
+      position: relative; /* Position relative for absolute positioning */    
+    }
     h1 {
       font-size: 24px;
       margin-bottom: 20px;
@@ -57,23 +60,10 @@
       padding: 10px;
       margin-bottom: 10px;
     }
-    .logo {
-      height: 40vmin; /* Set logo height */
-    }
-    .App-logo-spin {
-      animation: App-logo-spin infinite 20s linear; /* Spin animation */
-    }
-    @keyframes App-logo-spin {
-      from {
-        transform: rotate(0deg);
-      }
-      to {
-        transform: rotate(360deg);
-      }     
-    #calendar { /* Styling for the calendar container */
+    #calendar {
       margin-top: 20px;
     }
-    #clock { /* Styling for the clock container */
+    #clock {
       font-size: 24px;
       margin-top: 20px;
     }
@@ -93,14 +83,15 @@
       </select>
       <input type="text" id="category" placeholder="Category" required>
       <button type="submit">Add Task</button>
-      <button type="button" id="deleteTask">Delete Task</button> <!-- Change button type -->
+      <button type="button" id="deleteTask">Delete Task</button>
     </form>
     <ul id="taskList"></ul>
-    <div id="calendar"></div> <!-- Calendar container -->
-    <div id="clock"></div> <!-- Clock container -->
+    <div id="calendar"></div>
+    <div id="clock"></div>
   </div>
 
-  <script src='fullcalendar/main.js'></script> <!-- FullCalendar JavaScript -->
+  <!-- Include FullCalendar JavaScript -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.js'></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       var calendarEl = document.getElementById('calendar');
@@ -146,7 +137,7 @@
 
     // Initial call to updateClock to set the initial time
     updateClock();
-
+    
     // Task Form Submission
     var taskForm = document.getElementById('taskForm');
     var taskList = document.getElementById('taskList');
