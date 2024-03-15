@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import HomePage from './HomePage';
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -48,6 +49,7 @@ function App() {
 
   return (
     <div>
+     <HomePage /> {/* Render the HomePage component */}
       <h1>Taskify</h1>
       <form onSubmit={handleSubmit}>
         <input type="text" name="title" placeholder="Title" value={newTask.title} onChange={handleInputChange} />
