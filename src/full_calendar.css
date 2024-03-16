@@ -1,0 +1,58 @@
+/* fullcalendar.css */
+
+/* Style the calendar container */
+#calendar {
+  margin-top: 20px;
+}
+
+/* Style the calendar header */
+.fc-header-toolbar {
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+}
+
+/* Style the calendar button */
+.fc-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.fc-button:hover {
+  background-color: #0056b3;
+}
+
+/* Style the calendar event */
+.fc-event {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 5px;
+}
+
+.fc-event:hover {
+  background-color: #0056b3;
+}
+
+/* Style the calendar day */
+.fc-day {
+  background-color: #f0f0f0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+/* Style the calendar today */
+.fc-today {
+  background-color: #007bff;
+  color: #fff;
+}
