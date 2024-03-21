@@ -62,16 +62,48 @@
     }
     #calendar {
       margin-top: 20px;
+      background-color: #fff; /* Background color */
+      border: 1px solid #ccc; /* Border */
+      border-radius: 8px; /* Border radius */
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Box shadow */    
+    }
+    .fc-toolbar {
+      margin-bottom: 20px;
+    }    
+    .fc-toolbar-title {
+      font-size: 20px; /* Title font size */
+      font-weight: bold; /* Title font weight */
+    }    
+    .fc-day-header {
+      font-size: 14px; /* Day header font size */
+      font-weight: bold; /* Day header font weight */
+    } 
+    .fc-day {
+      padding: 5px; /* Day padding */
+    }    
+    .fc-event {
+      background-color: #007bff; /* Event background color */
+      color: #fff; /* Event text color */
+      border: none; /* Remove event border */
+      border-radius: 4px; /* Event border radius */
+      padding: 2px 5px; /* Event padding */
+      margin-bottom: 5px; /* Event margin bottom */ 
+    }
+    .fc-event:hover {
+      background-color: #0056b3; /* Event background color on hover */
     }
     #clock {
       font-size: 24px;
-      margin-top: 20px;
+      position: absolute;
+      top: 20px; /* Adjust top position as needed */
+      right: 20px; /* Adjust right position as needed */
     }
   </style>
 </head>
 <body>  
   <div class="container">
     <h1>TASKIFY</h1>
+    <div id="clock"></div>
     <form id="taskForm">
       <input type="text" id="title" placeholder="Title" required>
       <input type="text" id="description" placeholder="Description" required>
@@ -87,35 +119,36 @@
     </form>
     <ul id="taskList"></ul>
     <div id="calendar"></div>
-    <div id="clock"></div>
   </div>
 
   <!-- Include FullCalendar JavaScript -->
   <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.js'></script>
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      var calendarEl = document.getElementById('calendar');
+   <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.js'></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
 
-      var calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth', // Set initial view to month
-        events: [ // Example events (replace with your data)
-          {
-            title: 'Meeting',
-            start: '2022-03-15T10:00:00',
-            end: '2022-03-15T12:00:00'
-          },
-          {
-            title: 'Conference',
-            start: '2022-03-20',
-            end: '2022-03-22'
-          }
-          // Add more events as needed
-        ]
-      });
-
-      calendar.render();
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth', // Set initial view to month
+      events: [ // Example events (replace with your data)
+        {
+          title: 'Meeting',
+          start: '2022-03-15T10:00:00',
+          end: '2022-03-15T12:00:00'
+        },
+        {
+          title: 'Conference',
+          start: '2022-03-20',
+          end: '2022-03-22'
+        }
+        // Add more events as needed
+      ]
     });
 
+    calendar.render();
+  });
+  
     function updateClock() {
       var now = new Date();
       var hours = now.getHours();
