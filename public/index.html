@@ -109,6 +109,12 @@
       <input type="text" id="description" placeholder="Description" required>
       <input type="text" id="location" placeholder="Location" required>
       <input type="date" id="completionDate" required>
+      <select id="priority" required>
+        <option value="">Priority</option>
+        <option value="High">High</option>
+        <option value="Medium">Medium</option>
+        <option value="Low">Low</option>
+      </select>
       <button type="submit">Add Task</button>
       <button type="button" id="deleteTask">Delete Task</button>
     </form>
@@ -138,7 +144,8 @@
           start: task.completionDate,
           end: task.completionDate,
           description: task.description,
-          location: task.location
+          location: task.location,
+          priority: task.priority
         });
       }
       
@@ -153,13 +160,15 @@
         var description = document.getElementById('description').value;
         var location = document.getElementById('location').value;
         var completionDate = document.getElementById('completionDate').value;
+        var priority = document.getElementById('priority').value;
         
         // Create new task object
         var task = {
           title: title,
           description: description,
           location: location,
-          completionDate: completionDate
+          completionDate: completionDate,
+          priority: priority
         };
         
         // Add task to the calendar
@@ -167,7 +176,7 @@
         
         // Create new task list item
         var newTask = document.createElement('li');
-        newTask.textContent = `${title} - ${description} - ${location} - ${completionDate}`;
+        newTask.textContent = `${title} - ${description} - ${location} - ${completionDate} - ${priority}`;
         taskList.appendChild(newTask);
         
         // Clear form fields
@@ -175,8 +184,9 @@
         document.getElementById('description').value = '';
         document.getElementById('location').value = '';
         document.getElementById('completionDate').value = '';
+        document.getElementById('priority').value = '';
       });
-
+      
       // Delete Task Button
       var deleteTaskButton = document.getElementById('deleteTask');
 
