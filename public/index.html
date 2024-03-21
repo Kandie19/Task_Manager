@@ -37,7 +37,7 @@
       flex-wrap: wrap;
       gap: 10px;
     }
-    form input[type="text"], form select, form button {
+    form input[type="text"], form input[type="date"], form select, form button {
       padding: 10px;
       border: 1px solid #ccc;
       border-radius: 4px;
@@ -103,119 +103,90 @@
 <body>  
   <div class="container">
     <h1>TASKIFY</h1>
-    <div id="clock"></div>
-    <div id="calendar"></div>
+    <!-- Task Form -->
     <form id="taskForm">
       <input type="text" id="title" placeholder="Title" required>
       <input type="text" id="description" placeholder="Description" required>
-      <select id="priority" required>
-        <option value="">Priority</option>
-        <option value="Low">Low</option>
-        <option value="Medium">Medium</option>
-        <option value="High">High</option>
-      </select>
-      <input type="text" id="category" placeholder="Category" required>
+      <input type="text" id="location" placeholder="Location" required>
+      <input type="date" id="completionDate" required>
       <button type="submit">Add Task</button>
       <button type="button" id="deleteTask">Delete Task</button>
     </form>
+    <!-- Task List -->
     <ul id="taskList"></ul>
+    <!-- Calendar -->
+    <div id="calendar"></div>
   </div>
 
   <!-- Include FullCalendar JavaScript -->
   <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.js'></script>
   <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
+    document.addEventListener('DOMContentLoaded', function() {
+      var calendarEl = document.getElementById('calendar');
 
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-      initialView: 'dayGridMonth', // Set initial view to month
-      events: [ // Example events (replace with your data)
-        {
-          title: 'Meeting',
-          start: '2022-03-15T10:00:00',
-          end: '2022-03-15T12:00:00'
-        },
-        {
-          title: 'Conference',
-          start: '2022-03-20',
-          end: '2022-03-22'
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth', // Set initial view to month
+        events: [] // Initialize with no events
+      });
+
+      calendar.render();
+      
+      // Function to add a task to the calendar
+      function addTaskToCalendar(task) {
+        calendar.addEvent({
+          title: task.title,
+          start: task.completionDate,
+          end: task.completionDate,
+          description: task.description,
+          location: task.location
+        });
+      }
+      
+      // Task Form Submission
+      var taskForm = document.getElementById('taskForm');
+      var taskList = document.getElementById('taskList');
+
+      taskForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        var title = document.getElementById('title').value;
+        var description = document.getElementById('description').value;
+        var location = document.getElementById('location').value;
+        var completionDate = document.getElementById('completionDate').value;
+        
+        // Create new task object
+        var task = {
+          title: title,
+          description: description,
+          location: location,
+          completionDate: completionDate
+        };
+        
+        // Add task to the calendar
+        addTaskToCalendar(task);
+        
+        // Create new task list item
+        var newTask = document.createElement('li');
+        newTask.textContent = `${title} - ${description} - ${location} - ${completionDate}`;
+        taskList.appendChild(newTask);
+        
+        // Clear form fields
+        document.getElementById('title').value = '';
+        document.getElementById('description').value = '';
+        document.getElementById('location').value = '';
+        document.getElementById('completionDate').value = '';
+      });
+
+      // Delete Task Button
+      var deleteTaskButton = document.getElementById('deleteTask');
+
+      deleteTaskButton.addEventListener('click', function() {
+        var taskItems = taskList.getElementsByTagName('li');
+        if (taskItems.length > 0) {
+          taskItems[taskItems.length - 1].remove();
         }
-        // Add more events as needed
-      ]
+      });
     });
-
-    calendar.render();
-  });
-  
-    function updateClock() {
-      var now = new Date();
-      var hours = now.getHours();
-      var minutes = now.getMinutes();
-      var seconds = now.getSeconds();
-      
-      // Add leading zeros to single-digit minutes and seconds
-      minutes = minutes < 10 ? '0' + minutes : minutes;
-      seconds = seconds < 10 ? '0' + seconds : seconds;
-
-      var timeString = hours + ':' + minutes + ':' + seconds;
-      
-      // Update the clock element with the current time
-      document.getElementById('clock').textContent = timeString;
-    }
-
-    // Call updateClock function every second to update the time
-    setInterval(updateClock, 1000);
-
-    // Initial call to updateClock to set the initial time
-    updateClock();
-    
-    // Task Form Submission
-    var taskForm = document.getElementById('taskForm');
-    var taskList = document.getElementById('taskList');
-
-    taskForm.addEventListener('submit', function(event) {
-      event.preventDefault();
-      
-      var title = document.getElementById('title').value;
-      var description = document.getElementById('description').value;
-      var priority = document.getElementById('priority').value;
-      var category = document.getElementById('category').value;
-      
-      // Create new task list item
-      var newTask = document.createElement('li');
-      newTask.innerHTML = '<strong>' + title + '</strong> - ' + description + ' (' + priority + ') - ' + category;
-      taskList.appendChild(newTask);
-      
-      // Clear form fields
-      document.getElementById('title').value = '';
-      document.getElementById('description').value = '';
-      document.getElementById('priority').value = '';
-      document.getElementById('category').value = '';
-    });
-
-    // Delete Task Button
-    var deleteTaskButton = document.getElementById('deleteTask');
-
-    deleteTaskButton.addEventListener('click', function() {
-      var taskItems = taskList.getElementsByTagName('li');
-      if (taskItems.length > 0) {
-        taskItems[taskItems.length - 1].remove();
-      }
-    });
-
-    // Mark Task Done Button
-    var markTaskDoneButton = document.createElement('button');
-    markTaskDoneButton.textContent = 'Mark Task Done';
-    markTaskDoneButton.addEventListener('click', function() {
-      var taskItems = taskList.getElementsByTagName('li');
-      if (taskItems.length > 0) {
-        var lastTask = taskItems[taskItems.length - 1];
-        lastTask.style.textDecoration = 'line-through';
-      }
-    });
-
-    // Add Mark Task Done Button to the form
-    taskForm.appendChild(markTaskDoneButton);
   </script>
 </body>
 </html>
