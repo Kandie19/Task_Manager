@@ -60,6 +60,9 @@
       padding: 10px;
       margin-bottom: 10px;
     }
+    .completed {
+      background-color: #cfc;
+    }
     #calendar {
       margin-top: 20px;
       background-color: #fff; /* Background color */
@@ -176,7 +179,7 @@
         
         // Create new task list item
         var newTask = document.createElement('li');
-        newTask.textContent = `${title} - ${description} - ${location} - ${completionDate} - ${priority}`;
+        newTask.innerHTML = `<span>${title} - ${description} - ${location} - ${completionDate} - ${priority}</span><button class="markDone">Mark as Done</button>`;
         taskList.appendChild(newTask);
         
         // Clear form fields
