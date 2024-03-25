@@ -101,6 +101,10 @@
       top: 20px; /* Adjust top position as needed */
       right: 20px; /* Adjust right position as needed */
     }
+  .deleteButton {
+      color: red;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>  
@@ -119,10 +123,11 @@
         <option value="Low">Low</option>
       </select>
       <button type="button" id="addTask">Add Task</button>
-      <button type="button" id="deleteTask">Delete Task</button>
     </form>
     <!-- Task List -->
     <ul id="taskList"></ul>
+    <!-- Clock -->
+    <div id="clock"></div>
     <!-- Calendar -->
     <div id="calendar"></div>
   </div>
@@ -155,7 +160,7 @@
         var tasks = JSON.parse(localStorage.getItem('tasks')) || [];
         tasks.forEach(function(task) {
           var newTask = document.createElement('li');
-          newTask.textContent = task;
+          newTask.innerHTML = `<span>${task}</span> <span class="deleteButton">❌</span>`;
           taskList.appendChild(newTask);
         });
       }
@@ -163,7 +168,7 @@
       // Function to save tasks to localStorage
       function saveTasks() {
         var tasks = Array.from(taskList.children).map(function(task) {
-          return task.textContent;
+          return task.firstChild.textContent;
         });
         localStorage.setItem('tasks', JSON.stringify(tasks));
       }
@@ -183,7 +188,7 @@
         
         // Create new task list item
         var newTask = document.createElement('li');
-        newTask.innerHTML = `<span>${title} - ${description} - ${location} - ${completionDate} - ${priority}</span>`;
+        newTask.innerHTML = `<span>${title} - ${description} - ${location} - ${completionDate} - ${priority}</span> <span class="deleteButton">❌</span>`;
         taskList.appendChild(newTask);
         
         // Clear form fields
@@ -198,10 +203,9 @@
       });
 
       // Delete Task Button
-      document.getElementById('deleteTask').addEventListener('click', function() {
-        var taskItems = taskList.getElementsByTagName('li');
-        if (taskItems.length > 0) {
-          taskItems[taskItems.length - 1].remove();
+      taskList.addEventListener('click', function(event) {
+        if (event.target.classList.contains('deleteButton')) {
+          event.target.parentElement.remove();
           // Save tasks to localStorage
           saveTasks();
         }
