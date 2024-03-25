@@ -165,16 +165,15 @@
         newTask.innerHTML = `<span>${title} - ${description} - ${location} - ${completionDate} - ${priority}</span>`;
         taskList.appendChild(newTask);
         
-      // Clear form fields
-      document.getElementById('title').value = '';
-      document.getElementById('description').value = '';
-      document.getElementById('location').value = '';
-      document.getElementById('completionDate').value = '';
-      document.getElementById('priority').value = '';
-    });
-
-    // Delete Task Button
-    var deleteTaskButton = document.getElementById('deleteTask');
+        // Clear form fields
+        document.getElementById('title').value = '';
+        document.getElementById('description').value = '';
+        document.getElementById('location').value = '';
+        document.getElementById('completionDate').value = '';
+        document.getElementById('priority').value = '';
+      });
+      
+   var deleteTaskButton = document.getElementById('deleteTask');
 
     deleteTaskButton.addEventListener('click', function() {
       var taskItems = taskList.getElementsByTagName('li');
