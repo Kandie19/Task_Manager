@@ -130,95 +130,69 @@
   <!-- Include FullCalendar JavaScript -->
   <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.js'></script>
   <script>
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      var calendarEl = document.getElementById('calendar');
-      var calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth', // Set initial view to month
-        events: [] // Initialize with no events
-      });
-      calendar.render();
-      
-      var loginForm = document.getElementById('loginForm');
-      var taskForm = document.getElementById('taskForm');
-      var taskList = document.getElementById('taskList');
-      var clock = document.getElementById('clock');
-      
-      loginForm.addEventListener('submit', function(event) {
-        event.preventDefault();
-        var username = document.getElementById('username').value;
-        var password = document.getElementById('password').value;
-        // You can add your login validation logic here
-        // For simplicity, let's assume username is 'user' and password is 'password'
-        if (username === 'user' && password === 'password') {
-          loginForm.style.display = 'none';
-          taskForm.style.display = 'block';
-          setInterval(updateClock, 1000); // Start updating the clock
-        } else {
-          alert('Invalid username or password');
-        }
-      });
-
-      // Function to update the clock
-      function updateClock() {
-        var now = new Date();
-        var hours = now.getHours();
-        var minutes = now.getMinutes();
-        var seconds = now.getSeconds();
-        clock.textContent = `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
-      }
-
-      // Task Form Submission
-      taskForm.addEventListener('submit', function(event) {
-        event.preventDefault();
-        
-        var title = document.getElementById('title').value;
-        var description = document.getElementById('description').value;
-        var location = document.getElementById('location').value;
-        var completionDate = document.getElementById('completionDate').value;
-        var priority = document.getElementById('priority').value;
-        
-        // Create new task object
-        var task = {
-          title: title,
-          description: description,
-          location: location,
-          completionDate: completionDate,
-          priority: priority
-        };
-        
-        // Create new task list item
-        var newTask = document.createElement('li');
-        newTask.innerHTML = `<span>${title} - ${description} - ${location} - ${completionDate} - ${priority}</span><button class="markDone">Mark as Done</button>`;
-        taskList.appendChild(newTask);
-        
-        // Clear form fields
-        document.getElementById('title').value = '';
-        document.getElementById('description').value = '';
-        document.getElementById('location').value = '';
-        document.getElementById('completionDate').value = '';
-        document.getElementById('priority').value = '';
-      });
+  document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth', // Set initial view to month
+      events: [] // Initialize with no events
     });
+    calendar.render();
     
-        // Clear form fields
-        document.getElementById('title').value = '';
-        document.getElementById('description').value = '';
-        document.getElementById('location').value = '';
-        document.getElementById('completionDate').value = '';
-        document.getElementById('priority').value = '';
-      });
-      
-      // Delete Task Button
-      var deleteTaskButton = document.getElementById('deleteTask');
+    var taskForm = document.getElementById('taskForm');
+    var taskList = document.getElementById('taskList');
+    var clock = document.getElementById('clock');
 
-      deleteTaskButton.addEventListener('click', function() {
-        var taskItems = taskList.getElementsByTagName('li');
-        if (taskItems.length > 0) {
-          taskItems[taskItems.length - 1].remove();
-        }
-      });
+    // Function to update the clock
+    function updateClock() {
+      var now = new Date();
+      var hours = now.getHours();
+      var minutes = now.getMinutes();
+      var seconds = now.getSeconds();
+      clock.textContent = `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+    }
+
+    // Task Form Submission
+    taskForm.addEventListener('submit', function(event) {
+      event.preventDefault();
+      
+      var title = document.getElementById('title').value;
+      var description = document.getElementById('description').value;
+      var location = document.getElementById('location').value;
+      var completionDate = document.getElementById('completionDate').value;
+      var priority = document.getElementById('priority').value;
+      
+      // Create new task object
+      var task = {
+        title: title,
+        description: description,
+        location: location,
+        completionDate: completionDate,
+        priority: priority
+      };
+      
+      // Create new task list item
+      var newTask = document.createElement('li');
+      newTask.innerHTML = `<span>${title} - ${description} - ${location} - ${completionDate} - ${priority}</span><button class="markDone">Mark as Done</button>`;
+      taskList.appendChild(newTask);
+      
+      // Clear form fields
+      document.getElementById('title').value = '';
+      document.getElementById('description').value = '';
+      document.getElementById('location').value = '';
+      document.getElementById('completionDate').value = '';
+      document.getElementById('priority').value = '';
     });
-  </script>
-</body>
-</html>
+
+    // Delete Task Button
+    var deleteTaskButton = document.getElementById('deleteTask');
+
+    deleteTaskButton.addEventListener('click', function() {
+      var taskItems = taskList.getElementsByTagName('li');
+      if (taskItems.length > 0) {
+        taskItems[taskItems.length - 1].remove();
+      }
+    });
+
+    setInterval(updateClock, 1000); // Start updating the clock
+  });
+</script>
