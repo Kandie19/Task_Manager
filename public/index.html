@@ -132,16 +132,14 @@
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       var calendarEl = document.getElementById('calendar');
-
       var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth', // Set initial view to month
         events: [] // Initialize with no events
       });
-
       calendar.render();
       
-      // Function to add a task to the calendar
-      function addTaskToCalendar(task) {
+      // Function to add a task to the calendar and localStorage
+      function addTask(task) {
         calendar.addEvent({
           title: task.title,
           start: task.completionDate,
@@ -150,7 +148,22 @@
           location: task.location,
           priority: task.priority
         });
+        
+        // Save task to localStorage
+        var tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        tasks.push(task);
+        localStorage.setItem('tasks', JSON.stringify(tasks));
       }
+
+      // Load tasks from localStorage
+      function loadTasks() {
+        var tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        tasks.forEach(function(task) {
+          addTaskToCalendar(task);
+          renderTask(task);
+        });
+      }
+      loadTasks();
       
       // Task Form Submission
       var taskForm = document.getElementById('taskForm');
@@ -174,13 +187,9 @@
           priority: priority
         };
         
-        // Add task to the calendar
-        addTaskToCalendar(task);
-        
-        // Create new task list item
-        var newTask = document.createElement('li');
-        newTask.innerHTML = `<span>${title} - ${description} - ${location} - ${completionDate} - ${priority}</span><button class="markDone">Mark as Done</button>`;
-        taskList.appendChild(newTask);
+        // Add task to the calendar and localStorage
+        addTask(task);
+        renderTask(task);
         
         // Clear form fields
         document.getElementById('title').value = '';
