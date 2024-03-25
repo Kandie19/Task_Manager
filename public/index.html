@@ -150,6 +150,27 @@
         clock.textContent = `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
       }
 
+      // Function to load tasks from localStorage
+      function loadTasks() {
+        var tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        tasks.forEach(function(task) {
+          var newTask = document.createElement('li');
+          newTask.textContent = task;
+          taskList.appendChild(newTask);
+        });
+      }
+
+      // Function to save tasks to localStorage
+      function saveTasks() {
+        var tasks = Array.from(taskList.children).map(function(task) {
+          return task.textContent;
+        });
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+      }
+
+      // Load tasks when the page loads
+      loadTasks();
+
       // Task Form Submission
       document.getElementById('addTask').addEventListener('click', function(event) {
         event.preventDefault();
@@ -171,17 +192,23 @@
         document.getElementById('location').value = '';
         document.getElementById('completionDate').value = '';
         document.getElementById('priority').value = '';
+        
+        // Save tasks to localStorage
+        saveTasks();
       });
-      
-   var deleteTaskButton = document.getElementById('deleteTask');
 
-    deleteTaskButton.addEventListener('click', function() {
-      var taskItems = taskList.getElementsByTagName('li');
-      if (taskItems.length > 0) {
-        taskItems[taskItems.length - 1].remove();
-      }
+      // Delete Task Button
+      document.getElementById('deleteTask').addEventListener('click', function() {
+        var taskItems = taskList.getElementsByTagName('li');
+        if (taskItems.length > 0) {
+          taskItems[taskItems.length - 1].remove();
+          // Save tasks to localStorage
+          saveTasks();
+        }
+      });
+
+      setInterval(updateClock, 1000); // Start updating the clock
     });
-
-    setInterval(updateClock, 1000); // Start updating the clock
-  });
-</script>
+  </script>
+</body>
+</html>
