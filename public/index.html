@@ -123,7 +123,7 @@
         <option value="Low">Low</option>
       </select>
       <button type="button" id="addTask">Add Task</button>
-      <button type="button" id="Delete">Delete Task</button>
+      <button type="button" id="deleteTask">Delete Task</button>
     </form>
     <!-- Task List -->
     <ul id="taskList"></ul>
@@ -173,7 +173,7 @@
         });
         localStorage.setItem('tasks', JSON.stringify(tasks));
       }
-
+      
       // Load tasks when the page loads
       loadTasks();
 
