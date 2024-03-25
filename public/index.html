@@ -118,7 +118,7 @@
         <option value="Medium">Medium</option>
         <option value="Low">Low</option>
       </select>
-      <button type="submit">Add Task</button>
+      <button type="button" id="addTask">Add Task</button>
       <button type="button" id="deleteTask">Delete Task</button>
     </form>
     <!-- Task List -->
@@ -130,51 +130,41 @@
   <!-- Include FullCalendar JavaScript -->
   <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.js'></script>
   <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-      initialView: 'dayGridMonth', // Set initial view to month
-      events: [] // Initialize with no events
-    });
-    calendar.render();
-    
-    var taskForm = document.getElementById('taskForm');
-    var taskList = document.getElementById('taskList');
-    var clock = document.getElementById('clock');
+    document.addEventListener('DOMContentLoaded', function() {
+      var calendarEl = document.getElementById('calendar');
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth', // Set initial view to month
+        events: [] // Initialize with no events
+      });
+      calendar.render();
+      
+      var taskList = document.getElementById('taskList');
+      var clock = document.getElementById('clock');
 
-    // Function to update the clock
-    function updateClock() {
-      var now = new Date();
-      var hours = now.getHours();
-      var minutes = now.getMinutes();
-      var seconds = now.getSeconds();
-      clock.textContent = `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
-    }
+      // Function to update the clock
+      function updateClock() {
+        var now = new Date();
+        var hours = now.getHours();
+        var minutes = now.getMinutes();
+        var seconds = now.getSeconds();
+        clock.textContent = `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+      }
 
-    // Task Form Submission
-    taskForm.addEventListener('submit', function(event) {
-      event.preventDefault();
-      
-      var title = document.getElementById('title').value;
-      var description = document.getElementById('description').value;
-      var location = document.getElementById('location').value;
-      var completionDate = document.getElementById('completionDate').value;
-      var priority = document.getElementById('priority').value;
-      
-      // Create new task object
-      var task = {
-        title: title,
-        description: description,
-        location: location,
-        completionDate: completionDate,
-        priority: priority
-      };
-      
-      // Create new task list item
-      var newTask = document.createElement('li');
-      newTask.innerHTML = `<span>${title} - ${description} - ${location} - ${completionDate} - ${priority}</span><button class="markDone">Mark as Done</button>`;
-      taskList.appendChild(newTask);
-      
+      // Task Form Submission
+      document.getElementById('addTask').addEventListener('click', function(event) {
+        event.preventDefault();
+        
+        var title = document.getElementById('title').value;
+        var description = document.getElementById('description').value;
+        var location = document.getElementById('location').value;
+        var completionDate = document.getElementById('completionDate').value;
+        var priority = document.getElementById('priority').value;
+        
+        // Create new task list item
+        var newTask = document.createElement('li');
+        newTask.innerHTML = `<span>${title} - ${description} - ${location} - ${completionDate} - ${priority}</span>`;
+        taskList.appendChild(newTask);
+        
       // Clear form fields
       document.getElementById('title').value = '';
       document.getElementById('description').value = '';
