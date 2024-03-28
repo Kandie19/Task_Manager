@@ -159,10 +159,8 @@
       // Function to load tasks from localStorage
       function loadTasks() {
         var tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-        tasks.forEach(function(taskHTML) {
-          var newTask = document.createElement('li');
-          newTask.innerHTML = taskHTML;
-          taskList.appendChild(newTask);
+        tasks.forEach(function(task) {
+          taskList.insertAdjacentHTML('beforeend', task);
         });
       }
 
@@ -188,9 +186,8 @@
         var priority = document.getElementById('priority').value;
         
         // Create new task list item
-        var newTask = document.createElement('li');
-        newTask.innerHTML = `<span>${title} - ${description} - ${location} - ${completionDate} - ${priority}</span> <span class="deleteButton">❌</span>`;
-        taskList.appendChild(newTask);
+        var newTaskHTML = `<li><span>${title} - ${description} - ${location} - ${completionDate} - ${priority}</span> <span class="deleteButton">❌</span></li>`;
+        taskList.insertAdjacentHTML('beforeend', newTaskHTML);
         
         // Clear form fields
         document.getElementById('title').value = '';
