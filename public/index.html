@@ -159,9 +159,9 @@
       // Function to load tasks from localStorage
       function loadTasks() {
         var tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-        tasks.forEach(function(task) {
+        tasks.forEach(function(taskHTML) {
           var newTask = document.createElement('li');
-          newTask.innerHTML = `<span>${task}</span> <span class="deleteButton">❌</span>`;
+          newTask.innerHTML = taskHTML;
           taskList.appendChild(newTask);
         });
       }
@@ -169,7 +169,7 @@
       // Function to save tasks to localStorage
       function saveTasks() {
         var tasks = Array.from(taskList.children).map(function(task) {
-          return task.firstChild.textContent;
+          return task.outerHTML; // Save the entire HTML structure of each task item
         });
         localStorage.setItem('tasks', JSON.stringify(tasks));
       }
