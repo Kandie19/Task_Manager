@@ -161,9 +161,10 @@
         var completionDate = document.getElementById('completionDate').value;
         var priority = document.getElementById('priority').value;
         
-        // Create new task list item
+        // Create new task list item with timestamp
+        var timestamp = new Date().toLocaleString(); // Get current timestamp
         var newTask = document.createElement('li');
-        newTask.innerHTML = `<span>${title} - ${description} - ${location} - ${completionDate} - ${priority}</span> <span class="deleteButton">❌</span>`;
+        newTask.innerHTML = `<span>${timestamp} - ${title} - ${description} - ${location} - ${completionDate} - ${priority}</span> <span class="deleteButton">❌</span>`;
         taskList.appendChild(newTask); // Append the new task to the task list
         
         // Clear form fields
