@@ -172,7 +172,7 @@
       loadTasks();
 
       // Task Form Submission
-      document.getElementById('taskForm').addEventListener('submit', function(event) {
+      document.getElementById('addTask').addEventListener('click', function(event) {
         event.preventDefault(); // Prevent form submission
         
         // Get form values
@@ -195,12 +195,16 @@
       });
 
       // Delete Task Button
-      taskList.addEventListener('click', function(event) {
-        if (event.target.classList.contains('deleteButton')) {
-          event.target.parentElement.remove();
-          // Save tasks to localStorage
-          saveTasks();
-        }
+      document.getElementById('deleteTask').addEventListener('click', function(event) {
+        event.preventDefault();
+        var taskItems = document.querySelectorAll('#taskList li');
+        taskItems.forEach(function(taskItem) {
+          if (taskItem.querySelector('.deleteButton').checked) {
+            taskItem.remove();
+          }
+        });
+        // Save tasks to localStorage
+        saveTasks();
       });
 
       setInterval(updateClock, 1000); // Start updating the clock
