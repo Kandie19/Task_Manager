@@ -150,27 +150,6 @@
         clock.textContent = `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
       }
 
-      // Function to load tasks from localStorage
-      function loadTasks() {
-        var tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-        tasks.forEach(function(task) {
-          var newTask = document.createElement('li');
-          newTask.innerHTML = task;
-          taskList.appendChild(newTask);
-        });
-      }
-
-      // Function to save tasks to localStorage
-      function saveTasks() {
-        var tasks = Array.from(taskList.children).map(function(task) {
-          return task.innerHTML; // Save the inner HTML of each task item
-        });
-        localStorage.setItem('tasks', JSON.stringify(tasks));
-      }
-      
-      // Load tasks when the page loads
-      loadTasks();
-
       // Task Form Submission
       document.getElementById('addTask').addEventListener('click', function(event) {
         event.preventDefault(); // Prevent form submission
@@ -187,24 +166,19 @@
         newTask.innerHTML = `<span>${title} - ${description} - ${location} - ${completionDate} - ${priority}</span> <span class="deleteButton">❌</span>`;
         taskList.appendChild(newTask); // Append the new task to the task list
         
-        // Save tasks to localStorage
-        saveTasks();
-        
         // Clear form fields
         document.getElementById('taskForm').reset();
       });
 
       // Delete Task Button
       document.getElementById('deleteTask').addEventListener('click', function(event) {
-        event.preventDefault();
+        event.preventDefault(); // Prevent form submission
         var taskItems = document.querySelectorAll('#taskList li');
         taskItems.forEach(function(taskItem) {
-          if (taskItem.querySelector('.deleteButton').checked) {
+          if (taskItem.querySelector('.deleteButton')) {
             taskItem.remove();
           }
         });
-        // Save tasks to localStorage
-        saveTasks();
       });
 
       setInterval(updateClock, 1000); // Start updating the clock
