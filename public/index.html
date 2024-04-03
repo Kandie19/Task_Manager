@@ -160,8 +160,10 @@
       // Function to load tasks from localStorage
       function loadTasks() {
         var tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-        tasks.forEach(function(task) {
-          taskList.insertAdjacentHTML('beforeend', task);
+        tasks.forEach(function(taskHTML) {
+          var newTask = document.createElement('li');
+          newTask.innerHTML = taskHTML;
+          taskList.appendChild(newTask);
         });
       }
 
