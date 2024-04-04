@@ -155,8 +155,6 @@
 
       setInterval(updateClock, 1000); // Start updating the clock
 
-      // Existing JavaScript code
-
       // Function to create task element with edit button
       function createTaskElement(taskText) {
         var taskElement = document.createElement('li');
@@ -198,6 +196,31 @@
           // Append save button to task item
           taskItem.appendChild(saveButton);
         }
+      });
+
+      // Add Task Button
+      document.getElementById('addTask').addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent form submission
+        
+        // Get form values
+        var title = document.getElementById('title').value;
+        var description = document.getElementById('description').value;
+        var location = document.getElementById('location').value;
+        var completionDateTime = document.getElementById('completionDateTime').value;
+        var priority = document.getElementById('priority').value;
+        
+        // Create new task list item with timestamp
+        var timestamp = new Date().toLocaleString(); // Get current timestamp
+        var newTask = document.createElement('li');
+        newTask.innerHTML = `<span class="timestamp">${timestamp}</span> - ${title} - ${description} - ${location} - ${completionDateTime} - ${priority} <button class="editButton">Edit</button>`;
+        taskList.appendChild(newTask); // Append the new task to the task list
+
+        // Clear form fields
+        document.getElementById('title').value = '';
+        document.getElementById('description').value = '';
+        document.getElementById('location').value = '';
+        document.getElementById('completionDateTime').value = '';
+        document.getElementById('priority').value = '';
       });
     });
   </script>
