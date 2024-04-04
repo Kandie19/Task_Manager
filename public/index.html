@@ -106,6 +106,9 @@
       color: red;
       cursor: pointer;
     }
+    .timestamp {
+      color: red; /* Set timestamp color to red */
+    }
   </style>
 </head>
 <body>  
@@ -164,11 +167,15 @@
         // Create new task list item with timestamp
         var timestamp = new Date().toLocaleString(); // Get current timestamp
         var newTask = document.createElement('li');
-        newTask.innerHTML = `<span>${timestamp} - ${title} - ${description} - ${location} - ${completionDate} - ${priority}</span> <span class="deleteButton">❌</span>`;
+        newTask.innerHTML = `<span class="timestamp">${timestamp}</span> - ${title} - ${description} - ${location} - ${completionDate} - ${priority} <span class="deleteButton">❌</span>`;
         taskList.appendChild(newTask); // Append the new task to the task list
         
         // Clear form fields
-        document.getElementById('taskForm').reset();
+        document.getElementById('title').value = '';
+        document.getElementById('description').value = '';
+        document.getElementById('location').value = '';
+        document.getElementById('completionDate').value = '';
+        document.getElementById('priority').value = '';
       });
 
       // Delete Task Button
