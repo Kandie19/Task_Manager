@@ -37,7 +37,7 @@
       flex-wrap: wrap;
       gap: 10px;
     }
-    form input[type="text"], form input[type="date"], form select, form button {
+    form input[type="text"], form input[type="datetime-local"], form select, form button {
       padding: 10px;
       border: 1px solid #ccc;
       border-radius: 4px;
@@ -119,7 +119,7 @@
       <input type="text" id="title" placeholder="Title" required>
       <input type="text" id="description" placeholder="Description" required>
       <input type="text" id="location" placeholder="Location" required>
-      <input type="date" id="completionDate" required>
+      <input type="datetime-local" id="completionDateTime" required>
       <select id="priority" required>
         <option value="">Priority</option>
         <option value="High">High</option>
@@ -161,20 +161,20 @@
         var title = document.getElementById('title').value;
         var description = document.getElementById('description').value;
         var location = document.getElementById('location').value;
-        var completionDate = document.getElementById('completionDate').value;
+        var completionDateTime = document.getElementById('completionDateTime').value;
         var priority = document.getElementById('priority').value;
         
         // Create new task list item with timestamp
         var timestamp = new Date().toLocaleString(); // Get current timestamp
         var newTask = document.createElement('li');
-        newTask.innerHTML = `<span class="timestamp">${timestamp}</span> - ${title} - ${description} - ${location} - ${completionDate} - ${priority} <span class="deleteButton">❌</span>`;
+        newTask.innerHTML = `<span class="timestamp">${timestamp}</span> - ${title} - ${description} - ${location} - ${completionDateTime} - ${priority} <span class="deleteButton">❌</span>`;
         taskList.appendChild(newTask); // Append the new task to the task list
-        
+
         // Clear form fields
         document.getElementById('title').value = '';
         document.getElementById('description').value = '';
         document.getElementById('location').value = '';
-        document.getElementById('completionDate').value = '';
+        document.getElementById('completionDateTime').value = '';
         document.getElementById('priority').value = '';
       });
 
