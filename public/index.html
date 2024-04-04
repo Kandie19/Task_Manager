@@ -102,21 +102,12 @@
       right: 20px; /* Adjust right position as needed */
       color: black; /* Ensure clock text is visible */
     }
-    .timestamp {
-      color: red; /* Timestamp color */
-    }
-
-    .editButton, .deleteButton {
+    .deleteButton {
+      color: red;
       cursor: pointer;
-      margin-left: 5px;
     }
-
-    #taskList .editButton::after {
-      content: "✏️"; /* Edit button icon */
-    }
-
-    #taskList .deleteButton::after {
-      content: "❌"; /* Delete button icon */
+    .timestamp {
+      color: red; /* Set timestamp color to red */
     }
   </style>
 </head>
@@ -135,14 +126,15 @@
         <option value="Medium">Medium</option>
         <option value="Low">Low</option>
       </select>
-      <button type="submit" id="addTask">Add Task</button>
+      <button type="button" id="addTask">Add Task</button>
+      <button type="button" id="deleteTask">Delete Task</button>
     </form>
     <!-- Task List -->
     <ul id="taskList"></ul>
     <!-- Clock -->
     <div id="clock"></div>
     <!-- Calendar -->
-    <div id="calendar"></div>  
+    <div id="calendar"></div>
   </div>
 
   <!-- Include FullCalendar JavaScript -->
@@ -159,40 +151,10 @@
         var minutes = now.getMinutes();
         var seconds = now.getSeconds();
         clock.textContent = `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
-      }      
-      
-      // Function to render tasks
-      function renderTasks() {
-        // Clear existing tasks
-        taskList.innerHTML = '';
-
-        // Loop through tasks in localStorage and render them
-        var tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-        tasks.forEach(function(task) {
-          renderTask(task);
-        });
       }
-
-      // Function to render a single task
-      function renderTask(task) {
-        var taskItem = document.createElement('li');
-        taskItem.innerHTML = task;
-        taskList.appendChild(taskItem);
-      }
-
-      // Function to save tasks to localStorage
-      function saveTasks() {
-        var tasks = Array.from(taskList.children).map(function(taskItem) {
-          return taskItem.innerHTML; // Save the entire HTML structure of each task item
-        });
-        localStorage.setItem('tasks', JSON.stringify(tasks));
-      }
-
-      // Load tasks when the page loads
-      renderTasks();
 
       // Task Form Submission
-      document.getElementById('taskForm').addEventListener('submit', function(event) {
+      document.getElementById('addTask').addEventListener('click', function(event) {
         event.preventDefault(); // Prevent form submission
         
         // Get form values
@@ -202,53 +164,32 @@
         var completionDateTime = document.getElementById('completionDateTime').value;
         var priority = document.getElementById('priority').value;
         
-        // Create new task HTML
+        // Create new task list item with timestamp
         var timestamp = new Date().toLocaleString(); // Get current timestamp
-        var taskHTML = `<span class="timestamp">${timestamp}</span> - ${title} - ${description} - ${location} - ${completionDateTime} - ${priority} <span class="editButton"></span> <span class="deleteButton"></span>`;
-        
-        // Add the new task to the task list
-        renderTask(taskHTML);
+        var newTask = document.createElement('li');
+        newTask.innerHTML = `<span class="timestamp">${timestamp}</span> - ${title} - ${description} - ${location} - ${completionDateTime} - ${priority} <span class="deleteButton">❌</span>`;
+        taskList.appendChild(newTask); // Append the new task to the task list
 
         // Clear form fields
-        document.getElementById('taskForm').reset();
-
-        // Save tasks to localStorage
-        saveTasks();
-      });
-
-      // Edit Task Button
-      taskList.addEventListener('click', function(event) {
-        if (event.target.classList.contains('editButton')) {
-          var taskItem = event.target.parentElement;
-          var taskDetails = taskItem.textContent.split(' - ');
-          var timestamp = taskDetails.shift(); // Remove timestamp
-          var [title, description, location, completionDateTime, priority] = taskDetails;
-
-          // Set form fields with existing task details
-          document.getElementById('title').value = title;
-          document.getElementById('description').value = description;
-          document.getElementById('location').value = location;
-          document.getElementById('completionDateTime').value = completionDateTime;
-          document.getElementById('priority').value = priority;
-
-          // Remove the task from the list
-          taskItem.remove();
-
-          // Save tasks to localStorage after edit
-          saveTasks();
-        }
+        document.getElementById('title').value = '';
+        document.getElementById('description').value = '';
+        document.getElementById('location').value = '';
+        document.getElementById('completionDateTime').value = '';
+        document.getElementById('priority').value = '';
       });
 
       // Delete Task Button
-      taskList.addEventListener('click', function(event) {
-        if (event.target.classList.contains('deleteButton')) {
-          var taskItem = event.target.parentElement;
-          taskItem.remove();
-
-          // Save tasks to localStorage after delete
-          saveTasks();
-        }
+      document.getElementById('deleteTask').addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent form submission
+        var taskItems = document.querySelectorAll('#taskList li');
+        taskItems.forEach(function(taskItem) {
+          if (taskItem.querySelector('.deleteButton')) {
+            taskItem.remove();
+          }
+        });
       });
+
+      setInterval(updateClock, 1000); // Start updating the clock
     });
   </script>
 </body>
