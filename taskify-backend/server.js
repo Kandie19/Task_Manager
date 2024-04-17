@@ -30,7 +30,7 @@ app.use(express.json());
 app.post('/login', (req, res) => {
   const { username, password } = req.body;
   // Authenticate user (replace this with your authentication logic)
-  if (username === 'admin' && password === 'adminpassword') {
+  if (username === 'Admin' && password === '12345678') {
     res.json({ success: true, message: 'Login successful' });
   } else {
     res.status(401).json({ success: false, message: 'Invalid username or password' });
